@@ -69,7 +69,7 @@ module "eks" {
   enable_cluster_creator_admin_permissions = true
 
   # cloudwatch retention days
-  cloudwatch_log_group_retention_in_days=2
+  cloudwatch_log_group_retention_in_days=3
 
 
   tags = {
