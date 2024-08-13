@@ -18,62 +18,62 @@ module "vpc" {
   }
 }
 
-module "eks" {
-  source  = "terraform-aws-modules/eks/aws"
-  version = "~> 20.0"
-
-  cluster_name    = "kubernets-cluster"
-  cluster_version = "1.30"
-
-  cluster_endpoint_public_access  = true
-
-  cluster_addons = {
-    coredns = {
-      most_recent = true
-    }
-    kube-proxy = {
-      most_recent = true
-    }
-    vpc-cni = {
-      most_recent = true
-    }
-  }
-  vpc_id                   = module.vpc.vpc_id
-  subnet_ids               = module.vpc.private_subnets
-  control_plane_subnet_ids = module.vpc.public_subnets
-
-  eks_managed_node_group_defaults = {
-    ami_type       = "AL2_x86_64"
-    instance_types = ["m5.large"]
-
-    attach_cluster_primary_security_group = true
-  }
-
-  eks_managed_node_groups = {
-    nginx-cluster-wg = {
-      min_size     = 0
-      max_size     = 2
-      desired_size = 0
-
-      instance_types = ["t3.large"]
-      capacity_type  = "SPOT"
-
-      tags = {
-        ExtraTag = "helloworld"
-      }
-    }
-  }
-
-  # Cluster access entry
-  # To add the current caller identity as an administrator
-  enable_cluster_creator_admin_permissions = true
-
-  # cloudwatch retention days
-  cloudwatch_log_group_retention_in_days=3
-
-
-  tags = {
-    Environment = "dev"
-    Terraform   = "true"
-  }
-}
+#module "eks" {
+#  source  = "terraform-aws-modules/eks/aws"
+#  version = "~> 20.0"
+#
+#  cluster_name    = "kubernets-cluster"
+#  cluster_version = "1.30"
+#
+#  cluster_endpoint_public_access  = true
+#
+#  cluster_addons = {
+#    coredns = {
+#      most_recent = true
+#    }
+#    kube-proxy = {
+#      most_recent = true
+#    }
+#    vpc-cni = {
+#      most_recent = true
+#    }
+#  }
+#  vpc_id                   = module.vpc.vpc_id
+#  subnet_ids               = module.vpc.private_subnets
+#  control_plane_subnet_ids = module.vpc.public_subnets
+#
+#  eks_managed_node_group_defaults = {
+#    ami_type       = "AL2_x86_64"
+#    instance_types = ["m5.large"]
+#
+#    attach_cluster_primary_security_group = true
+#  }
+#
+#  eks_managed_node_groups = {
+#    nginx-cluster-wg = {
+#      min_size     = 0
+#      max_size     = 2
+#      desired_size = 0
+#
+#      instance_types = ["t3.large"]
+#      capacity_type  = "SPOT"
+#
+#      tags = {
+#        ExtraTag = "helloworld"
+#      }
+#    }
+#  }
+#
+#  # Cluster access entry
+#  # To add the current caller identity as an administrator
+#  enable_cluster_creator_admin_permissions = true
+#
+#  # cloudwatch retention days
+#  cloudwatch_log_group_retention_in_days=3
+#
+#
+#  tags = {
+#    Environment = "dev"
+#    Terraform   = "true"
+#  }
+#}
